@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dewan Ambalan Pramuka</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="logo.ico" type="image/x-icon" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+      <div class="container">
+        <img src="assets/logo.jpg" alt="Logo" class="img-logo" />
+        <a class="navbar-brand fw-bold" href="#index">Dewan Ambalan</a>
+        <button
+          class="navbar-toggler"
+          data-bs-toggle="collapse"
+          data-bs-target="#navMenu"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#profil">Profil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#struktur">Struktur</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#anggota">Anggota</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#kegiatan">Kegiatan</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#arsip">Arsip</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO / IDENTITAS -->
+    <section class="section-hero py-5">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- TEXT -->
+          <div class="col-md-6 text-center text-md-start">
+            <h1 class="fw-bold mb-3">Dewan Ambalan Diponegoro – Kartini</h1>
+            <p class="lead mb-2">Gugus Depan 01.001 – 01.002</p>
+            <p class="fst-italic">“Satya Ku Darmakan, Darma Ku Baktikan”</p>
+          </div>
+
+          <!-- IMAGE -->
+          <div class="col-md-6 text-center mt-4 mt-md-0">
+            <img
+              src="assets/pramuka-header.png"
+              alt="Ilustrasi Pramuka"
+              class="img-fluid"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- PROFIL -->
+    <section id="profil" class="container py-5">
+      <h3 class="mb-3">Profil Ambalan</h3>
+      <p>
+        Dewan Ambalan merupakan organisasi Pramuka Penegak yang bertugas
+        mengelola, merencanakan, dan melaksanakan kegiatan kepramukaan di
+        tingkat ambalan secara aktif, kreatif, dan bertanggung jawab.
+      </p>
+    </section>
+    <!-- STRUKTUR -->
+    <section id="struktur" class="section-hero py-5">
+      <div class="container">
+        <h3 class="mb-3 heading-bg">Struktur Organisasi</h3>
+        <table class="table table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th>Jabatan</th>
+              <th>Nama</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ketua Ambalan</td>
+              <td>Ahmad Fauzi</td>
+            </tr>
+            <tr>
+              <td>Wakil Ketua</td>
+              <td>Rina Aulia</td>
+            </tr>
+            <tr>
+              <td>Sekretaris</td>
+              <td>Siti Aisyah</td>
+            </tr>
+            <tr>
+              <td>Bendahara</td>
+              <td>Muhammad Rizki</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <!-- ANGGOTA -->
+    <section id="anggota" class="container py-5" x-data="anggotaApp()">
+      <h3 class="mb-3">Data Anggota</h3>
+
+      <!-- Search -->
+      <div class="d-flex justify-content-between mb-3">
+        <input
+          type="text"
+          class="form-control w-50"
+          placeholder="Cari nama anggota..."
+          x-model="search"
+        />
+
+        <button class="btn btn-danger" @click="exportPDF()">Export PDF</button>
+      </div>
+
+      <!-- Table -->
+      <table class="table table-striped table-hover">
+        <thead class="table-success table-anggota">
+          <tr>
+            <th @click="sortBy('nama')">
+              Nama <span x-show="sortKey==='nama'">▲</span>
+            </th>
+            <th @click="sortBy('nta')">
+              NTA <span x-show="sortKey==='nta'">▲</span>
+            </th>
+            <th @click="sortBy('angkatan')">
+              Angkatan <span x-show="sortKey==='angkatan'">▲</span>
+            </th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template x-for="a in paginatedData()" :key="a.nta">
+            <tr>
+              <td x-text="a.nama"></td>
+              <td x-text="a.nta"></td>
+              <td x-text="a.angkatan"></td>
+              <td>
+                <span
+                  class="badge"
+                  :class="a.status === 'Aktif' ? 'bg-success' : 'bg-secondary'"
+                  x-text="a.status"
+                ></span>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item" :class="{ disabled: page === 1 }">
+            <button class="page-link" @click="page--">Prev</button>
+          </li>
+
+          <template x-for="p in totalPages()" :key="p">
+            <li class="page-item" :class="{ active: p === page }">
+              <button class="page-link" @click="page = p" x-text="p"></button>
+            </li>
+          </template>
+
+          <li class="page-item" :class="{ disabled: page === totalPages() }">
+            <button class="page-link" @click="page++">Next</button>
+          </li>
+        </ul>
+      </nav>
+    </section>
+    <!-- KEGIATAN -->
+    <section
+      id="kegiatan"
+      class="section-hero py-5"
+      x-data="{ kegiatan: [
+  { nama: 'Latihan Rutin', tanggal: '2026-02-10', status: 'Selesai' },
+  { nama: 'Perkemahan Sabtu Minggu', tanggal: '2026-03-01', status: 'Akan Datang' }
+]}"
+    >
+      <div class="container">
+        <h3 class="mb-3 heading-bg">Data Kegiatan</h3>
+        <table class="table table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th>Nama Kegiatan</th>
+              <th>Tanggal</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template x-for="k in kegiatan">
+              <tr>
+                <td x-text="k.nama"></td>
+                <td x-text="k.tanggal"></td>
+                <td>
+                  <span
+                    class="badge"
+                    :class="k.status === 'Selesai' ? 'bg-success' : 'bg-warning text-dark'"
+                    x-text="k.status"
+                  ></span>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <!-- ARSIP -->
+    <section
+      id="arsip"
+      class="container py-5"
+      x-data="{
+    arsip: [
+      { nama: 'SK Ambalan', file: 'assets/dokumen/sk-ambalan.jpg' },
+      { nama: 'Program Kerja', file: 'assets/dokumen/program-kerja.jpg' }
+    ]
+  }"
+    >
+      <h3 class="mb-3">Arsip Dokumen</h3>
+
+      <ul class="list-group">
+        <template x-for="a in arsip" :key="a.file">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <span x-text="a.nama"></span>
+            <a :href="a.file" class="btn btn-sm btn-success" download>
+              Download
+            </a>
+          </li>
+        </template>
+      </ul>
+    </section>
+    <!-- FOOTER -->
+    <footer class="text-center py-4 mt-5">
+      <div class="container">
+        <p class="mb-2 fw-semibold">© 2026 Dewan Ambalan Pramuka</p>
+
+        <ul class="list-inline mb-0 footer-contact">
+          <li class="list-inline-item mx-2">
+            <a href="https://instagram.com/username" target="_blank">
+              <i class="bi bi-instagram"></i>
+              <span>Instagram</span>
+            </a>
+          </li>
+
+          <li class="list-inline-item mx-2">
+            <a href="mailto:ambalan@email.com">
+              <i class="bi bi-envelope-fill"></i>
+              <span>Email</span>
+            </a>
+          </li>
+
+          <li class="list-inline-item mx-2">
+            <a href="https://wa.me/6281234567890" target="_blank">
+              <i class="bi bi-whatsapp"></i>
+              <span>WhatsApp</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+    <script src="script.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
