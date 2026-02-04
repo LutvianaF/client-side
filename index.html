@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>Dewan Ambalan Pramuka</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" href="logo.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -80,7 +80,7 @@
       </div>
     </section>
     <!-- PROFIL -->
-    <section id="profil" class="container py-5">
+    <section id="profil" class="container py-5 content-card">
       <h3 class="mb-3">Profil Ambalan</h3>
       <p>
         Dewan Ambalan merupakan organisasi Pramuka Penegak yang bertugas
@@ -89,11 +89,11 @@
       </p>
     </section>
     <!-- STRUKTUR -->
-    <section id="struktur" class="section-hero py-5">
-      <div class="container">
-        <h3 class="mb-3 heading-bg">Struktur Organisasi</h3>
-        <table class="table table-bordered">
-          <thead class="table-dark">
+    <section id="struktur" class="content-card container py-5">
+      <div class="">
+        <h3 class="mb-3">Struktur Organisasi</h3>
+        <table class="table table-striped">
+          <thead class="table-success">
             <tr>
               <th>Jabatan</th>
               <th>Nama</th>
@@ -121,7 +121,7 @@
       </div>
     </section>
     <!-- ANGGOTA -->
-    <section id="anggota" class="container py-5" x-data="anggotaApp()">
+    <section id="anggota" class="content-card container py-5" x-data="anggotaApp()">
       <h3 class="mb-3">Data Anggota</h3>
 
       <!-- Search -->
@@ -192,16 +192,16 @@
     <!-- KEGIATAN -->
     <section
       id="kegiatan"
-      class="section-hero py-5"
+      class="content-card container py-5"
       x-data="{ kegiatan: [
   { nama: 'Latihan Rutin', tanggal: '2026-02-10', status: 'Selesai' },
   { nama: 'Perkemahan Sabtu Minggu', tanggal: '2026-03-01', status: 'Akan Datang' }
 ]}"
     >
-      <div class="container">
-        <h3 class="mb-3 heading-bg">Data Kegiatan</h3>
-        <table class="table table-bordered">
-          <thead class="table-dark">
+      <div class="">
+        <h3 class="mb-3">Data Kegiatan</h3>
+        <table class="table table-striped">
+          <thead class="table-success">
             <tr>
               <th>Nama Kegiatan</th>
               <th>Tanggal</th>
@@ -227,9 +227,9 @@
       </div>
     </section>
     <!-- ARSIP -->
-    <section
+    <!-- <section
       id="arsip"
-      class="container py-5"
+      class="content-card container py-5"
       x-data="{
     arsip: [
       { nama: 'SK Ambalan', file: 'assets/dokumen/sk-ambalan.jpg' },
@@ -251,7 +251,7 @@
           </li>
         </template>
       </ul>
-    </section>
+    </section> -->
     <!-- FOOTER -->
     <footer class="text-center py-4 mt-5">
       <div class="container">
